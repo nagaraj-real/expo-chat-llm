@@ -1,11 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { setModelOptions } from "react-native-local-gen-ai";
+import { Chat } from "./Chat";
 
-export default function App() {
+function App() {
+  useEffect(() => {
+    setModelOptions({ modelPath: "/data/local/tmp/llm/gemma-2b-it-gpu-int4.bin" });
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Chat />
     </View>
   );
 }
@@ -13,8 +18,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+  },
+  loadingIndicator: {
+    marginTop: 10,
+    color: "#111",
   },
 });
+
+export default App;
