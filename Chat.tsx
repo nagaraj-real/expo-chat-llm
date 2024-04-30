@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import MessageText from "./MessageText";
 import { chatWithLLM } from "react-native-local-gen-ai";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import { getPromptsFromMessages } from "./message-util";
 
 const llmUser = {
@@ -29,8 +29,8 @@ export function Chat() {
         GiftedChat.append(previousMessages, messages)
       );
       setIsLoading(true);
-      const prompt = getPromptsFromMessages(messages, chatPrompt)
-      const response = await chatWithLLM(prompt);
+      //const prompt = getPromptsFromMessages(messages, chatPrompt)
+      const response = await chatWithLLM(messages[0].text);
       setMessages((previousMessages) =>
         GiftedChat.append(previousMessages, [{
           _id: Math.round(Math.random() * 1000000),
