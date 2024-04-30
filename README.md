@@ -1,4 +1,4 @@
-### Expo offline chat using Generative AI
+### Offline chat app using Expo & Generative AI
 
 <p align="left">
   <img height="500" wisth="40"  src="https://github.com/nagaraj-real/expo-chat-llm/assets/17967313/2740ea91-e566-4754-8b5d-9b86765aeb87" alt="animated" />
