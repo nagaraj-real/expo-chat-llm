@@ -5,7 +5,7 @@ import { Chat } from "./Chat";
 
 function App() {
   useEffect(() => {
-    setModelOptions({ modelPath: "/data/local/tmp/llm/gemma-2b-it-gpu-int4.bin" });
+    setModelOptions({ modelPath: "/data/local/tmp/llm/gemma-2b-it-cpu-int4.bin" });
   }, []);
 
   return (

@@ -1,27 +1,36 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import MessageText from "./MessageText";
 import { chatWithLLM } from "react-native-local-gen-ai";
 import { ActivityIndicator } from "react-native";
+import { getPromptsFromMessages } from "./message-util";
 
 const llmUser = {
   _id: 2,
-  name: "System",
+  name: "model",
 };
 
 export function Chat() {
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [chatPrompt, setChatPrompt] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSend = useCallback(async (messages: IMessage[] = []) => {
+  useEffect(() => {
+    setChatPrompt(getPromptsFromMessages([...messages].reverse()))
+  }, [messages])
+
+  useEffect(() => {
+    console.log(chatPrompt)
+  }, [chatPrompt])
+
+  async function onSend(messages: IMessage[] = []) {
     try {
-      console.log(messages);
       setMessages((previousMessages) =>
         GiftedChat.append(previousMessages, messages)
       );
       setIsLoading(true);
-      const response = await chatWithLLM(messages[0].text);
-      console.log(response);
+      const prompt = getPromptsFromMessages(messages, chatPrompt)
+      const response = await chatWithLLM(prompt);
       setMessages((previousMessages) =>
         GiftedChat.append(previousMessages, [{
           _id: Math.round(Math.random() * 1000000),
@@ -34,7 +43,7 @@ export function Chat() {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }
 
   return (
     <>
@@ -45,7 +54,7 @@ export function Chat() {
         renderMessageText={(props) => <MessageText {...props} />}
         user={{
           _id: 1,
-          name: "User",
+          name: "user",
         }}
       />
     </>
